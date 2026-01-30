@@ -14,7 +14,7 @@ class Vertex:
     def edges(self):
         return self.es
     
-    def position(self, newPosition = None):
+    def position(self, newPosition=None):
         if newPosition is not None:
             self.spot = newPosition
         else:
@@ -24,6 +24,8 @@ class Edge:
     def __init__(self, v, u):
         self.vu = (v, u)
         self.e = f"{v.name()}{u.name()}"
+        self.plane = 0
+
         u.add(self)
         v.add(self)
 
@@ -32,6 +34,12 @@ class Edge:
     
     def name(self):
         return self.e
+    
+    def page(self, newPlane=None):
+        if newPlane is not None:
+            self.plane = newPlane
+        else:
+            return self.plane
 
 class Graph:
     def __init__(self):
@@ -46,6 +54,17 @@ class Graph:
         return self.E
     
     def makeGraph(self, n, m):
+        
+        # Generate up to a fully connected graph
+        if m > (n * (n-1)/2):
+            print("Too many edges")
+            return
+        
+        # Generate a minimum of a path graph
+        if m < n - 1:
+            print("Not enough edges")
+            return
+        
         for i in range(n):
             v = Vertex(i)
             v.position(i)
@@ -70,16 +89,12 @@ class Graph:
         for e in self.E:
             print(f"{e.name()}")
 
-    def swap(self, i, j):
-        v, u = self.V[i], self.V[j]
-        temp = v.position()
-        v.position(u.position())
-        u.position(temp)
+#----------------
+# Testing
+# G = Graph()
+# G.makeGraph(4, 6)
 
-# Test
-G = Graph()
-G.makeGraph(10, 20)
-G.swap(2, 4)
-
-from draw import *
-see(G)
+#----------------
+# Graph Drawing
+# from draw import *
+# see(G)

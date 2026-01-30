@@ -4,14 +4,19 @@ from matplotlib.patches import Arc, Circle
 plt.rcParams['mathtext.fontset'] = 'custom'
 plt.rcParams['mathtext.rm'] = 'Times New Roman'
 
-def drawEdge(e, ax, color = 'black'):
+def drawEdge(e, ax):
     v, u = e.vertices()
     vp = v.position()
     up = u.position()
     center = (abs((vp + up)/2), 0)
     width = abs(vp - up)
     height = abs(vp-up)/2
-    arc = Arc(center, width, height, angle = 0, theta1=0, theta2=180, edgecolor=color, lw = 1)
+    if e.page() == 0:
+        arc = Arc(center, width, height, angle = 0, theta1=0, theta2=180, edgecolor='black', lw = 1)
+    if e.page() == 1:
+        arc = Arc(center, width, -height, angle = 0, theta1=0, theta2=180, edgecolor='green', lw = 1)
+    if e.page() == 2:
+        arc = Arc(center, width, -height, angle = 0, theta1=0, theta2=180, edgecolor='blue', lw = 1)
     ax.add_patch(arc)
 
 def drawVertex(u, ax):
@@ -26,6 +31,7 @@ def see(G):
 
     for v in G.getV():
         drawVertex(v, ax)
+
     ax.set_aspect('equal')
     ax.autoscale_view()
     ax.axis('off')
