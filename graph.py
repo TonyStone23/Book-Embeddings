@@ -19,8 +19,7 @@ class Vertex:
     def spot(self, newSpot=None):
         if newSpot is not None:
             self.__spot = newSpot
-        else:
-            return self.__spot
+        return self.__spot
 
 class Edge:
     def __init__(self, v, u):
@@ -42,13 +41,12 @@ class Edge:
     def page(self, newPage=None):
         if newPage is not None:
             self.__page = newPage
-        else:
-            return self.__page
+        return self.__page
 
 class Graph:
-    def __init__(self, V, E):
-        self.__V = V
-        self.__E = E
+    def __init__(self):
+        self.__V = []
+        self.__E = []
         pass
 
     def V(self):
@@ -91,7 +89,7 @@ class Graph:
 
     def show(self):
         for e in self.__E:
-            print(f"{e.name()}")
+            print(f"{e.name()}--{e}")
 
 #---
 # Testing

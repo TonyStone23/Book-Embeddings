@@ -2,33 +2,34 @@ from graph import *
 
 #---
 # Helper functions
-def bt(v, n, V, E):
-    global i
-    r = n // 2
-    l = n - r
-    print(i, "l: ",l,"r: ", r)
+def bt(v, n, V, E, i=0):
+    #global i
+    lt = (n -1) // 2
+    rt = n - 1 - lt
+    print(i, "l: ",lt,"r: ", rt)
 
     if n <= 1:
-        u = Vertex(i)
-        i += 1
-        V.append(u)
-        return u, i
+        return i
     
-    if l >= 1:
+    if lt > 0:
         print("going left")
-        lu = bt(v, l, V, E)
-        if lu is not None:
-            lu, i = lu
-            el = Edge(v, lu)
-            E.append(el)
+        i += 1
+        l = Vertex(i)
+        V.append(l)
+        el = Edge(v, l)
+        E.append(el)
+        i = bt(l, lt, V, E, i)
 
-    if r >= 1:
+    if rt > 0:
         print("going right")
-        ru = bt(v, r, V, E)
-        if ru is not None:
-            ru, i = ru
-            er = Edge(v, ru)
-            E.append(er)
+        i += 1
+        r = Vertex(i)
+        V.append(r)
+        er = Edge(v, r)
+        E.append(er)
+        i = bt(r, rt, V, E, i)
+
+    return i
 
 #---
 # Builder
@@ -36,12 +37,11 @@ class Build:
     
     def binaryTree(n):
         v = Vertex(0)
-        global i
-        i = 0
-        global V; V = []
-        global E; E = []
+        G = Graph()
+        V = G.V()
+        V.append(v)
+        E = G.E()
         bt(v, n, V, E)
-        G = Graph(V, E)
 
         return G
     

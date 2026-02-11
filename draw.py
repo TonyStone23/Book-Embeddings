@@ -11,6 +11,7 @@ def drawEdge(e, ax):
     center = (abs((vp + up)/2), 0)
     width = abs(vp - up)
     height = abs(vp-up)/2
+    # needs cleaned up
     if e.page() == 0:
         arc = Arc(center, width, height, angle = 0, theta1=0, theta2=180, edgecolor='black', lw = 1)
     if e.page() == 1:
@@ -28,9 +29,11 @@ def see(G):
     fig, ax = plt.subplots()
     for e in G.E():
         drawEdge(e, ax)
+        print("drawing edge")
 
     for v in G.V():
         drawVertex(v, ax)
+        print("Drawing vertex")
 
     ax.set_aspect('equal')
     ax.autoscale_view()
