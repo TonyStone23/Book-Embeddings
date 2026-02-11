@@ -54,38 +54,6 @@ class Graph:
     
     def E(self):
         return self.__E
-    
-    def makeGraph(self, n, m):
-        
-        # Generate up to a fully connected graph
-        if m > (n * (n-1)/2):
-            print("Too many edges")
-            return
-        
-        # Generate a minimum of a path graph
-        if m < n - 1:
-            print("Not enough edges")
-            return
-        
-        for i in range(n):
-            v = Vertex(i)
-            v.spot(i)
-            self.__V.append(v)
-
-        vi = 0
-        ui = 0
-        edges = 0
-        while edges < m:
-            v = self.__V[vi % n]
-            u = self.__V[ui % n]
-
-            if (v != u) and (bool(v.edges() & u.edges()) == False):
-                self.__E.append(Edge(v, u))
-                vi += 1
-                ui += 1
-                edges += 1
-            else:
-                ui += 1
 
     def show(self):
         for e in self.__E:

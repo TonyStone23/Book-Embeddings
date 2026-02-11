@@ -60,7 +60,7 @@ class Build:
         return G
     
     #---
-    # H graph from Yannakakis
+    # Maximal Planar graph
     def triangular(n):
         G = Graph()
         V = G.V()
