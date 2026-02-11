@@ -8,7 +8,9 @@ class Vertex:
     def add(self, edge):
         self.__edges.add(edge)
 
-    def name(self):
+    def name(self, newName=None):
+        if newName is not None:
+            self.__name = newName
         return self.__name
 
     def edges(self):
@@ -32,7 +34,9 @@ class Edge:
     def vu(self):
         return self.__vu
     
-    def name(self):
+    def name(self, newName=None):
+        if newName is not None:
+            self.__name = newName
         return self.__name
     
     def page(self, newPage=None):
@@ -42,9 +46,9 @@ class Edge:
             return self.__page
 
 class Graph:
-    def __init__(self):
-        self.__V = []
-        self.__E = []
+    def __init__(self, V, E):
+        self.__V = V
+        self.__E = E
         pass
 
     def V(self):
@@ -89,12 +93,12 @@ class Graph:
         for e in self.__E:
             print(f"{e.name()}")
 
-#----------------
+#---
 # Testing
 # G = Graph()
 # G.makeGraph(4, 6)
 
-#----------------
+#---
 # Graph Drawing
 # from draw import *
 # see(G)
