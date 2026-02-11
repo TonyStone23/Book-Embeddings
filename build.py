@@ -29,18 +29,20 @@ def bt(v, n, V, E, i=0):
     return i
 
 #---
-# build a cycle
-def cycle(start, V, E, n, i):
-    v = start
-    for _ in range(n-1):
-        u = Vertex(i)
-        V.append(u)
-        E.append(Edge(v, u))
-        v = u
-        i += 1
-    E.append(Edge(v, start))
+# Triangulator
+def triangulate(f, V, E, i):
+    v, u, w, = f
+    x = Vertex(i)
+    V.append(x)
+    E += [Edge(x, v),
+          Edge(x, u),
+          Edge(x, w)]
 
-    return u, i
+    f1 = (x, v, u)
+    f2 = (x, u, w)
+    f3 = (x, w, v)
+
+    return f1, f2, f3
 
 #---
 # Builder
@@ -59,20 +61,25 @@ class Build:
     
     #---
     # H graph from Yannakakis
-    def H(f, k):
+    def triangular(n):
         G = Graph()
         V = G.V()
-        v = Vertex(0)
-        V.append(v)
         E = G.E()
-        i = 1
-        for _ in range(f): # inner graph I
-            v, i = cycle(v, V, E, 3 if r.random() > .5 else 4, i)
+        v = Vertex(0)
+        u = Vertex(1)
+        w = Vertex(2)
+        V += [v, u, w]
+        E += [Edge(v, u),
+              Edge(u, w),
+              Edge(w, v)]
         
-        # K cycle around I
-        cycle(V[0], V, E, k, i)
+        faces = [(v, u, w)]
 
-        
+        for i in range(3, n):
+            f = faces[r.randint(0, len(faces))]
+            f1, f2, f3 = triangulate(f, V, E, i)
+            faces += [f1, f2, f3]
+    
         return G
 
             
