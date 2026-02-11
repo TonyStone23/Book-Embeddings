@@ -1,57 +1,57 @@
 class Vertex:
     def __init__(self, num):
-        self.num = num
-        self.es = set()
-        self.spot = num
+        self.__name = num
+        self.__edges = set()
+        self.__spot = num
         pass
 
     def add(self, edge):
-        self.es.add(edge)
+        self.__edges.add(edge)
 
     def name(self):
-        return self.num
+        return self.__name
 
     def edges(self):
-        return self.es
+        return self.__edges
     
-    def position(self, newPosition=None):
-        if newPosition is not None:
-            self.spot = newPosition
+    def spot(self, newSpot=None):
+        if newSpot is not None:
+            self.__spot = newSpot
         else:
-            return self.spot
+            return self.__spot
 
 class Edge:
     def __init__(self, v, u):
-        self.vu = (v, u)
-        self.e = f"{v.name()}{u.name()}"
-        self.plane = 0
+        self.__vu = (v, u)
+        self.__name = f"{v.name()}{u.name()}"
+        self.__page = 0
 
         u.add(self)
         v.add(self)
 
-    def vertices(self):
-        return self.vu
+    def vu(self):
+        return self.__vu
     
     def name(self):
-        return self.e
+        return self.__name
     
-    def page(self, newPlane=None):
-        if newPlane is not None:
-            self.plane = newPlane
+    def page(self, newPage=None):
+        if newPage is not None:
+            self.__page = newPage
         else:
-            return self.plane
+            return self.__page
 
 class Graph:
     def __init__(self):
-        self.V = []
-        self.E = []
+        self.__V = []
+        self.__E = []
         pass
 
-    def getV(self):
-        return self.V
+    def V(self):
+        return self.__V
     
-    def getE(self):
-        return self.E
+    def E(self):
+        return self.__E
     
     def makeGraph(self, n, m):
         
@@ -67,18 +67,18 @@ class Graph:
         
         for i in range(n):
             v = Vertex(i)
-            v.position(i)
-            self.V.append(v)
+            v.spot(i)
+            self.__V.append(v)
 
         vi = 0
         ui = 0
         edges = 0
         while edges < m:
-            v = self.V[vi % n]
-            u = self.V[ui % n]
+            v = self.__V[vi % n]
+            u = self.__V[ui % n]
 
             if (v != u) and (bool(v.edges() & u.edges()) == False):
-                self.E.append(Edge(v, u))
+                self.__E.append(Edge(v, u))
                 vi += 1
                 ui += 1
                 edges += 1
@@ -86,7 +86,7 @@ class Graph:
                 ui += 1
 
     def show(self):
-        for e in self.E:
+        for e in self.__E:
             print(f"{e.name()}")
 
 #----------------

@@ -5,9 +5,9 @@ plt.rcParams['mathtext.fontset'] = 'custom'
 plt.rcParams['mathtext.rm'] = 'Times New Roman'
 
 def drawEdge(e, ax):
-    v, u = e.vertices()
-    vp = v.position()
-    up = u.position()
+    v, u = e.vu()
+    vp = v.spot()
+    up = u.spot()
     center = (abs((vp + up)/2), 0)
     width = abs(vp - up)
     height = abs(vp-up)/2
@@ -20,16 +20,16 @@ def drawEdge(e, ax):
     ax.add_patch(arc)
 
 def drawVertex(u, ax):
-    circle = Circle((u.position(), 0), .15, edgecolor = 'black', facecolor = 'white')
+    circle = Circle((u.spot(), 0), .15, edgecolor = 'black', facecolor = 'white')
     ax.add_patch(circle)
-    ax.text(u.position(), 0, f"$V_{u.name()}$", fontsize=12, color='black', ha='center', va='center')
+    ax.text(u.spot(), 0, f"$V_{u.name()}$", fontsize=12, color='black', ha='center', va='center')
 
 def see(G):
     fig, ax = plt.subplots()
-    for e in G.getE():
+    for e in G.E():
         drawEdge(e, ax)
 
-    for v in G.getV():
+    for v in G.V():
         drawVertex(v, ax)
 
     ax.set_aspect('equal')
