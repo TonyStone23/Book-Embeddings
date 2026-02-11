@@ -29,11 +29,9 @@ def see(G):
     fig, ax = plt.subplots()
     for e in G.E():
         drawEdge(e, ax)
-        print("drawing edge")
 
     for v in G.V():
         drawVertex(v, ax)
-        print("Drawing vertex")
 
     ax.set_aspect('equal')
     ax.autoscale_view()

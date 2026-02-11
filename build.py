@@ -3,16 +3,13 @@ from graph import *
 #---
 # Helper functions
 def bt(v, n, V, E, i=0):
-    #global i
     lt = (n -1) // 2
     rt = n - 1 - lt
-    print(i, "l: ",lt,"r: ", rt)
 
     if n <= 1:
         return i
     
     if lt > 0:
-        print("going left")
         i += 1
         l = Vertex(i)
         V.append(l)
@@ -21,7 +18,6 @@ def bt(v, n, V, E, i=0):
         i = bt(l, lt, V, E, i)
 
     if rt > 0:
-        print("going right")
         i += 1
         r = Vertex(i)
         V.append(r)
