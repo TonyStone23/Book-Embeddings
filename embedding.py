@@ -1,10 +1,11 @@
-# The Four Page Embedding Algorithm
-# by Mihalis Yannakakis, coded by Tony Stone
+#---
+# Helper functions
+def expand(C):
+        return
 
-
-def expand (c):
-    return
-
-
-def fourPage(G):
-    return
+#---
+# Embedder
+class Embed:
+    # Four Page Algorithm
+    def fourPage(G):
+        return

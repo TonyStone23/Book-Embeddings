@@ -23,7 +23,7 @@ def drawEdge(e, ax):
 def drawVertex(u, ax):
     circle = Circle((u.spot(), 0), .15, edgecolor = 'black', facecolor = 'white')
     ax.add_patch(circle)
-    ax.text(u.spot(), 0, f"$V_{u.name()}$", fontsize=12, color='black', ha='center', va='center')
+    ax.text(u.spot(), 0, f"$V_{{{u.name()}}}$", fontsize=12, color='black', ha='center', va='center')
 
 def see(G):
     fig, ax = plt.subplots()
