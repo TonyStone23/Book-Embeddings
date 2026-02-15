@@ -1,9 +1,22 @@
 from graph import *
+from build import *
 
 #---
 # Find initial 'outer' cycle K 
 def init(G):
-    return # K, an outer face of G
+    K = Graph()
+    for i in range(0, 3):
+        K.V(G.V()[i])
+    E = set()
+    for c in K.V():
+        for e in c.edges():
+            v, u = e.vu()
+            if (v in K.V() and u in K.V()):
+                E.add(e)
+    E = list(E)
+    for e in E:
+        K.E(e)
+    return K # an outer face of G
 
 #---
 # Tarjin depth-first search
@@ -51,30 +64,72 @@ def blockify(G):
 # Determine interval of dominating vertices
 def dominators(B, C):
     A = []
-    for a in C:
+    for a in C.V():
         for e in a.edges():
             v, u = e.vu()
-            if v in B or u in B:
+            if v in B.V() or u in B.V():
                 A.append(a)
     return A
 
 #---
 # Recursive expansion
-def expand(C, G, L, i):
-    I = C - G
-    if I == 0:
+def expand(K, G, L, i = 0):
+    # insert vertices into list 
+    k = K.V()[0]
+    m = []
+    for e in K.E():
+        v, u = e.vu()
+        if v == k:
+            if u in K.V():
+                m.append(u)
+                k = u
+        else:
+            if v in K.V():
+                m.append(v)
+                k = v
+    l = L[0:i]
+    r = L[i:-1]
+    L = l + m + r
+    print(L)
+    # Get inner graph
+    I = G - K
+    if not I.V():
         return # Base Case
+    
+    # Block tree of I
     T = blockify(I)
     for B in T:
-        A = dominators(B, C)
+        A = dominators(B, K)
         for a in A:
             i = L.index(a)
         expand(B, G & B, L, i) # Recursive call
+        # It cannot make a recursive call on graph B, it needs to be the outer face.
+
+    return L
+
+#---
+# Update vertex spots
+def arrange(L):
+    if L is not None:
+        for v in L:
+            v.spot(L.index(v))
 
 #---
 # Embedder
 class Embed:
     # Four Page Algorithm
     def fourPage(G):
-        return
+        L = [] # Layout
+        K = init(G) # Arbitrary outer face
+        L = expand(K, G, L)
+
+        arrange(L)
+        return L
     
+#---
+# Testing
+G = Build.triangular(7)
+L = Embed.fourPage(G)
+print(L)
+for l in L:
+    print(l.name())

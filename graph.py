@@ -1,3 +1,5 @@
+#---
+# Vertex Class
 class Vertex:
     def __init__(self, num):
         self.__name = num
@@ -32,7 +34,9 @@ class Vertex:
         if lowlink is not None:
             self.__lowlink = lowlink
         return self.__lowlink
-
+    
+#---
+# Edge class
 class Edge:
     def __init__(self, v, u):
         self.__vu = (v, u)
@@ -55,6 +59,8 @@ class Edge:
             self.__page = newPage
         return self.__page
 
+#---
+# Graph class
 class Graph:
     def __init__(self):
         self.__V = []
@@ -85,11 +91,13 @@ class Graph:
     def __sub__(self, other): 
         difference = Graph()
         difference.__V = list(set(self.__V) - set(other.__V))
-        difference.__E = list(set(self.__E) - set(other.__E))
-        for e in difference.__E:
-            v, u = e.vu
-            if not (v in difference.__V and u in difference.__V):
-                difference.__E.remove(e)
+        E = set()
+        for v in difference.__V:
+            for e in v.edges():
+                v, u = e.vu()
+                if (v in difference.__V and u in difference.__V):
+                    E.add(e)
+        difference.__E = list(E)
         return difference
     
     def __and__(self, other):
