@@ -7,23 +7,29 @@ class Vertex:
         self.__spot = num
         self.__discovery = 0
         self.__lowlink = 0
+        self.__level = None
         pass
 
     def add(self, edge):
         self.__edges.add(edge)
 
+    def edges(self):
+        return self.__edges
+
     def name(self, newName=None):
         if newName is not None:
             self.__name = newName
         return self.__name
-
-    def edges(self):
-        return self.__edges
     
     def spot(self, newSpot=None):
         if newSpot is not None:
             self.__spot = newSpot
         return self.__spot
+    
+    def level(self, newLevel=None):
+        if newLevel is not None:
+            self.__level = newLevel
+        return self.__level
     
     def discovery(self, discovery=None):
         if discovery is not None:

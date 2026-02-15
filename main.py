@@ -7,3 +7,5 @@ from draw import *
 # Testing
 G = Build.triangular(7)
 see(G)
+Embed.fourPage(G)
+see(G)
