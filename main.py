@@ -1,7 +1,13 @@
+from embedding import *
 from build import Build
 from draw import * 
 
-#G = Build.binaryTree(8)
-G = Build.triangular(5)
 
+#---
+# Testing Block decomposition
+#G = Build.triangular(8)
+G = Build.binaryTree(3)
 see(G)
+T = blockify(G)
+for B in T:
+    see(G & B)

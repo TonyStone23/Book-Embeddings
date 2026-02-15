@@ -50,6 +50,9 @@ class Build:
     #---
     # Binary Tree
     def binaryTree(n):
+        """
+        Balanced Binary tree with n vertices.
+        """
         G = Graph()
         V = G.V()
         v = Vertex(0)
@@ -62,6 +65,9 @@ class Build:
     #---
     # Maximal Planar graph
     def triangular(n):
+        """
+        Maximal planar graph with n vertices.
+        """
         G = Graph()
         V = G.V()
         E = G.E()
@@ -81,8 +87,3 @@ class Build:
             faces += [f1, f2, f3]
     
         return G
-
-            
-            
-    
-    # More graph classes
