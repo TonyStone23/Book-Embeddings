@@ -2,6 +2,10 @@ from graph import *
 from build import *
 
 #---
+# *very rough initial attempt*
+# Working through trying to understand the algorithm
+
+#---
 # Find initial 'outer' cycle K 
 def init(G):
     K = Graph()

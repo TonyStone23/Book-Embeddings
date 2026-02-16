@@ -46,6 +46,13 @@ class Edge:
         u.add(self)
         v.add(self)
 
+    def u(self, w):
+        v, u = self.__vu
+        if v == w:
+            return u
+        if u == w:
+            return v
+
     def vu(self):
         return self.__vu
     
