@@ -11,3 +11,5 @@ for e in v.edges():
     print(e.u(v).name())
 
 see(G)
+Embed.fourPage(G)
+see(G)

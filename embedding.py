@@ -10,10 +10,12 @@ from build import *
 def init(G):
     K = Graph()
     for i in range(0, 3):
-        K.V(G.V()[i])
+        k = G.V()[i]
+        K.V(k)
+        
     E = set()
-    for c in K.V():
-        for e in c.edges():
+    for k in K.V():
+        for e in k.edges():
             v, u = e.vu()
             if (v in K.V() and u in K.V()):
                 E.add(e)
@@ -77,24 +79,24 @@ def dominators(B, C):
 
 #---
 # Recursive expansion
-def expand(K, G, L, i = 0):
+def expand(K, G, L, i = 0, l = 0):
     # insert vertices into list 
     k = K.V()[0]
-    m = []
+    mL = []
     for e in K.E():
+        k = l
         v, u = e.vu()
         if v == k:
             if u in K.V():
-                m.append(u)
+                mL.append(u)
                 k = u
         else:
             if v in K.V():
-                m.append(v)
+                mL.append(v)
                 k = v
-    l = L[0:i]
-    r = L[i:-1]
-    L = l + m + r
-    print(L)
+    lL = L[0:i]
+    rL = L[i:-1]
+    L = lL + mL + rL
     # Get inner graph
     I = G - K
     if not I.V():
@@ -108,7 +110,6 @@ def expand(K, G, L, i = 0):
             i = L.index(a)
         expand(B, G & B, L, i) # Recursive call
         # It cannot make a recursive call on graph B, it needs to be the outer face.
-
     return L
 
 #---
@@ -134,6 +135,3 @@ class Embed:
 # Testing
 G = Build.triangular(7)
 L = Embed.fourPage(G)
-print(L)
-for l in L:
-    print(l.name())
