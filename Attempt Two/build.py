@@ -3,54 +3,77 @@ from graph import *
 #---
 # Builder
 def buildEdge(v, u):
-    h_ = Halfedge(v)
-    _h = Halfedge(u)
+    vu = Halfedge(v)
+    uv = Halfedge(u)
 
-    h_.twin(_h)
-    _h.twin(h_)
-    return h_, _h
+    vu.twin(uv)
+    uv.twin(vu)
+    return vu, uv
 
-def buildFace(name, h):
-    f = Face(name)
+def buildFace(h):
+    f = Face()
     f.halfedge(h)
     return f
 
-def trinagulate(graph, face):
+def trinagulate(graph, f, i):
+    vu = f.halfedge()
+    uw = vu.next()
+    wv = uw.next()
+
+    v = vu.v() # v -> u
+    u = uw.v() # u -> w
+    w = wv.v() # w -> v
+    x = Vertex(i)
+
+    xv, vx = buildEdge(x, v)
+    xu, ux = buildEdge(x, u)
+    xw, wx = buildEdge(x, w)
+
+    xv.next(vu)
+    vu.next(ux)
+    xu.next(uw)
+    uw.next(wx)
+    xw.next(wv)
+    wv.next(vx)
+
+    f1 = buildFace(xv)
+    f2 = buildFace(xu)
+    f3 = buildFace(xw)
+
+    graph.removeFace(f)
+    graph.update([x], [xv, vx, xu, ux, xw, wx], [f1, f2, f3])
+
     return
 
 class Build:
     def triangular(n):
         graph = Graph()
-        vs = graph.V()
-        es = graph.E()
-        fs = graph.F()
         
         v = Vertex(0)
         u = Vertex(1)
         w = Vertex(2)
-        vs += [v, u, w]
         
-        h1_, _h1 = buildEdge(v, u)
-        h2_, _h2 = buildEdge(u, w)
-        h3_, _h3 = buildEdge(w, v)
-        es += [h1_, h2_, h3_, _h1, _h2, _h3]
+        vu, uv = buildEdge(v, u)
+        uw, wu = buildEdge(u, w)
+        wv, vw = buildEdge(w, v)
 
-        h1_.next(h2_)
-        h2_.next(h3_)
-        h3_.next(h1_)
+        vu.next(uw)
+        uw.next(wv)
+        wv.next(vu)
+        uv.next(wu)
+        wu.next(vw)
+        vw.next(uv)
 
-        _h1.next(_h2)
-        _h2.next(_h3)
-        _h3.next(_h1)
-
-        f1 = Face(0)
-        f2 = Face(1)
-        f1.halfedge(h1_)
-        f2.halfedge(_h1)
-        fs += [f1, f2]
+        f1 = buildFace(vu)
+        f2 = buildFace(uv)
         graph.outerface(f1)
-        
+
+        graph.update([v, u, w], [vu, uw, wv, uv, wu, vw], [f1, f2])
+
+        for i in range(3, n):
+            trinagulate(graph, graph.F()[-1], i)
+
         return graph
 
-G = Build.triangular(3)
+G = Build.triangular(4)
 G.show()

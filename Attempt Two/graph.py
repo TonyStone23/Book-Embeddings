@@ -49,19 +49,21 @@ class Halfedge:
 #---
 # Face
 class Face:
-    def __init__(self, name):
-        self.__name = name
+    def __init__(self):
         self.__halfedge = None
         return
-    
-    def name(self):
-        return self.__name
 
     def halfedge(self, halfedge=None):
         if halfedge is not None:
             self.__halfedge = halfedge
         return self.__halfedge
-
+    
+    def show(self):
+        h1 = self.__halfedge
+        h2 = h1.next()
+        h3 = h2.next()
+        return h1.v().name(), h2.v().name(), h3.v().name()
+        
 #---
 # Graph
 class Graph:
@@ -86,16 +88,24 @@ class Graph:
             self.__F.append(f)
         return self.__F
     
+    def removeFace(self, f):
+        self.__F.remove(f)
+    
     def outerface(self, of):
         if of is not None:
             self.__outerface = of
         return self.__outerface
     
     def show(self):
-        for f in self.__F:
-            h1 = f.halfedge()
-            h2 = h1.next()
-            h3 = h2.next()
-            print(f"Face {f.name()}: {h1.v().name(), h2.v().name(), h3.v().name()}")
+            print(f"Vertices: \n    {str([v.name() for v in self.__V])[1:-1]}")
+            print(f"Faces: \n    outer: {self.__outerface.show()}\n    inner: {str([f.show() for f in self.__F if f != self.__outerface])[1:-1]}")
+
+    def update(self, V=None, E=None, F=None):
+        if V is not None:
+            self.__V += V
+        if E is not None:
+            self.__E += E
+        if F is not None:
+            self.__F += F
 
     
