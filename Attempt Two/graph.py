@@ -34,15 +34,11 @@ class Halfedge:
         if twin is not None:
             self.__twin = twin
         return self.__twin
-    
-    def previous(self, previous=None):
-        if previous is not None:
-            self.__previous = previous
-        return self.__previous
 
     def next(self, next=None):
         if next is not None:
             self.__next = next
+            next.__previous = self
         return self.__next
     
     def face(self, face=None):
@@ -94,3 +90,12 @@ class Graph:
         if of is not None:
             self.__outerface = of
         return self.__outerface
+    
+    def show(self):
+        for f in self.__F:
+            h1 = f.halfedge()
+            h2 = h1.next()
+            h3 = h2.next()
+            print(f"Face {f.name()}: {h1.v().name(), h2.v().name(), h3.v().name()}")
+
+    
