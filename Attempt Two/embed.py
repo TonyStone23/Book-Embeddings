@@ -1,20 +1,18 @@
 from graph import *
+from build import *
 
 #---
-# Tarjan depth first search # Needs to be updated, does not traverse entire graph
+# Tarjan depth first search
 def dfs(u, visited = set()): 
     visited.add(u)
     print("found ", u.name())
     start = u.halfedge()
     e = start
-
     while True:
         u = e.twin().v()
         if u not in visited:
             dfs(u, visited)
-        
-        e.twin().next()
-
+        e = e.twin().next()
         if e == start:
             break
     return
@@ -39,3 +37,8 @@ def fourPage(G):
     outerface = G.outerface()
 
     expand(outerface, G, active, binding, level, spine)
+
+graph = Build.triangular(5)
+graph.show()
+
+dfs(graph.V()[0])
