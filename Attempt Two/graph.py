@@ -59,6 +59,7 @@ class Halfedge:
 class Face:
     def __init__(self):
         self.__halfedge = None
+        self.__outer = False
         return
 
     def halfedge(self, halfedge=None):
@@ -75,6 +76,11 @@ class Face:
             vs.append(h.v())
             h = h.next()
         return vs, hs
+    
+    def outer(self, outer=None):
+        if outer is not None:
+            self.__outer = outer
+        return self.__outer
     
     def show(self):
         h1 = self.__halfedge
@@ -112,6 +118,7 @@ class Graph:
     def outerface(self, of=None):
         if of is not None:
             self.__outerface = of
+            of.outer(True)
         return self.__outerface
     
     def show(self):

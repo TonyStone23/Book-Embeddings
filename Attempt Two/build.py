@@ -104,12 +104,3 @@ class Build:
             trinagulate(graph, graph.F()[-1], i)
 
         return graph
-
-G = Build.triangular(50)
-G.show()
-print(G.outerface().walk())
-print(G.F()[-1].walk())
-
-v = G.V()[0]
-for i, h in enumerate(v.outedges()):
-    print(i, h, h.v().name())
