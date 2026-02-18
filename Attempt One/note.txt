@@ -1,0 +1,6 @@
+-------------------------------------------
+This is much harder to implement than DCEL
+-------------------------------------------
+Drawing is good, will likely re-use, but passing
+lists as positions/colorings.
+-------------------------------------------

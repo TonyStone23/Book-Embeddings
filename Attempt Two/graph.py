@@ -74,7 +74,6 @@ class Face:
             hs.append(h)
             vs.append(h.v())
             h = h.next()
-            
         return vs, hs
     
     def show(self):
