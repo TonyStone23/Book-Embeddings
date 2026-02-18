@@ -15,6 +15,14 @@ class Vertex:
         if halfedge is not None:
             self.__halfedge = halfedge
         return self.__halfedge
+    
+    def outedges(self):
+        outedges = [self.__halfedge]
+        h = self.__halfedge.twin().next()
+        while h != self.__halfedge:
+            outedges.append(h)
+            h = h.twin().next()
+        return outedges
 
 #---
 # Halfedge
@@ -58,6 +66,17 @@ class Face:
             self.__halfedge = halfedge
         return self.__halfedge
     
+    def walk(self):
+        h = self.__halfedge.next()
+        hs = [self.__halfedge]
+        vs = [self.__halfedge.v()]
+        while h != self.__halfedge:
+            hs.append(h)
+            vs.append(h.v())
+            h = h.next()
+            
+        return vs, hs
+    
     def show(self):
         h1 = self.__halfedge
         h2 = h1.next()
@@ -91,7 +110,7 @@ class Graph:
     def removeFace(self, f):
         self.__F.remove(f)
     
-    def outerface(self, of):
+    def outerface(self, of=None):
         if of is not None:
             self.__outerface = of
         return self.__outerface
