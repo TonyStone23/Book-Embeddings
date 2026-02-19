@@ -60,6 +60,11 @@ class Halfedge:
             self.__color = color
             self.__twin.__color = color
         return self.__color
+    
+    def show(self):
+        v = self.__v
+        u = self.__twin.__v
+        return (v.name(), u.name())
 
 #---
 # Face
