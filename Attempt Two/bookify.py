@@ -92,8 +92,9 @@ def bookify(graph):
 
 #----
 # Testing
-graph = Build.triangular(8)
+graph = Build.triangular(7)
 
 graph.show()
+graph.faces()
 
 bookify(graph)

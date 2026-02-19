@@ -93,7 +93,7 @@ class Face:
         h1 = self.__halfedge
         h2 = h1.next()
         h3 = h2.next()
-        return h1.v().name(), h2.v().name(), h3.v().name()
+        print(h1.v().name(), h2.v().name(), h3.v().name())
         
 #---
 # Graph
@@ -129,8 +129,12 @@ class Graph:
         return self.__outerface
     
     def show(self):
-            for v in self.__V:
-                print(v.name(), [e.twin().v().name() for e in v.outedges()])
+        for v in self.__V:
+            print(v.name(), [e.twin().v().name() for e in v.outedges()])
+
+    def faces(self):
+        for f in self.__F:
+            f.show()
 
     def update(self, V=None, E=None, F=None):
         if V is not None:
