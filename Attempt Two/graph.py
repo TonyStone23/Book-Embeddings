@@ -33,6 +33,7 @@ class Halfedge:
         self.__previous = None
         self.__next = None
         self.__face = None
+        self.__color = None
         return
     
     def v(self):
@@ -53,6 +54,12 @@ class Halfedge:
         if face is not None:
             self.__face = face
         return self.__face
+    
+    def color(self, color=None):
+        if color is not None:
+            self.__color = color
+            self.__twin.__color = color
+        return self.__color
 
 #---
 # Face
@@ -122,8 +129,8 @@ class Graph:
         return self.__outerface
     
     def show(self):
-            print(f"Vertices: \n    {str([v.name() for v in self.__V])[1:-1]}")
-            print(f"Faces: \n    outer: {self.__outerface.show()}\n    inner: {str([f.show() for f in self.__F if f != self.__outerface])[1:-1]}")
+            for v in self.__V:
+                print(v.name(), [e.twin().v().name() for e in v.outedges()])
 
     def update(self, V=None, E=None, F=None):
         if V is not None:

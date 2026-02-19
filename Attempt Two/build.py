@@ -1,5 +1,6 @@
 from graph import *
-
+import random as r
+r.seed(23)
 #---
 # Builder
 def buildEdge(v, u):
@@ -101,6 +102,7 @@ class Build:
         graph.update([v, u, w], [vu, uw, wv, uv, wu, vw], [f1, f2])
 
         for i in range(3, n):
-            trinagulate(graph, graph.F()[-1], i)
+            f = r.choice([f for f in graph.F() if f != graph.outerface()])
+            trinagulate(graph, f, i)
 
         return graph
