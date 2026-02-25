@@ -26,6 +26,7 @@ def dfs(u, inactive=None, parent=None, path=None, blocks=None, visited=None, dis
     while True:
         v = e.twin().v()
 
+        # This needs to keep track of blocks, and label edges as binding or not
         if v not in inactive:
             if v != u and v not in visited:
                 path.append(e)
@@ -51,56 +52,48 @@ def dfs(u, inactive=None, parent=None, path=None, blocks=None, visited=None, dis
 
     return blocks
 
-def expand(outerface, graph, inactive=None, color=None, binding=None, spine=None):
-    if inactive is None: 
-        inactive = set()
-    if color is None: 
-        color = {}
-    if binding is None: 
-        binding = {True: set(), False: set()}
-    if spine is None: 
-        spine = []
+def expand(C):
+    return
 
+def bookify(graph):
+    binding = {True: set(), False: set()}
+    inactive = set()
+    spine = []
+
+    outerface = graph.outerface()
     vs, hs = outerface.walk()
 
-    for h in hs: # These are level edges
+    # These are level edges
+    for h in hs: 
         binding[False].add(h)
         binding[False].add(h.twin())
 
+    # Peel outer cycle
     for v in vs:
-        inactive.add(v) # Peel outer cycle
+        inactive.add(v)
         spine.append(v)
-        outedges = v.outedges()
-        for o in outedges:
+        for o in v.outedges():
             if o not in binding[False] and o not in binding[True]: # an unlabeled edge that is not a level edge is a binding edge
                 binding[True].add(o)
                 binding[True].add(o.twin())
-
-    print(f"Level edges: {[e.show() for e in binding[False]]}")
-    print(f"Binding edges: {[e.show() for e in binding[True]]}")
-
-    print(f"{[e.show() for e in set(graph.E()) - binding[False] - binding[True]]}")
     
-    print(f"spine: {[v.name() for v in spine]}")
-    
-    u = (set(graph.V()) - inactive).pop()
+    # Find root vertex a
+    a = set([e.twin().v() for e in spine[0].outedges()]).pop()
 
-    blocks = dfs(u, inactive)
-    for b in blocks:
+    blocks = dfs(a, inactive) # Determine blocks
+    for b in blocks: # Just for checking
         bv = []
         for v in b:
             bv.append(v.name())
         print(f"block {blocks.index(b)}: {bv}")
 
-    return
-
-def bookify(graph):
-    outerface = graph.outerface()
-    expand(outerface, graph)
+    # Root block 
+    expand() 
+    return spine
 
 #----
 # Testing
-graph = Build.triangular(6)
+graph = Build.triangular(8)
 
 graph.show()
 #graph.faces()
