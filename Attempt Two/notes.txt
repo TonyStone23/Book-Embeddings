@@ -1,0 +1,7 @@
+-------------------------------------------
+DCEL was the right move
+-------------------------------------------
+OOP functionality may be a little too confusing to work with, moving to just object pointers
+
+Going to use flags in objects, not dictionaries, avoiding inclusion checks.
+-------------------------------------------
