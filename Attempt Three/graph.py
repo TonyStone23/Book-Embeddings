@@ -26,6 +26,8 @@ class Halfedge:
         self.face = None
         self.color = None
         self.active = True
+        self.blockprevious = None
+        self.blocknext = None
         
 
 #---
@@ -43,6 +45,17 @@ class Graph:
         self.E = []
         self.F = []
         self.outerface = None
+
+#---
+# Blocl
+class Block:
+    def __init__(self):
+        self.cycle = set()
+
+class Tree:
+    def __init__(self):
+        self.blocks = []
+        self.points = []
         
 
 #---
@@ -146,11 +159,15 @@ class Build:
             Build.triangulate(graph, f, i)
 
         return graph
-    
-graph = Build.triangular(4)
 
-print(
-    "Vertices", [v.name for v in graph.V], "\n"
-    "Halfedges", [(h.v.name, h.twin.v.name) for h in graph.E], "\n"
-    "Faces", [(f.halfedge.v.name, f.halfedge.next.v.name, f.halfedge.next.next.v.name) for f in graph.F], "\n"
-)
+def show(graph):
+    print(
+        "Vertices", [v.name for v in graph.V], "\n"
+        "Halfedges", [(h.v.name, h.twin.v.name) for h in graph.E], "\n"
+        "Faces", [(f.halfedge.v.name, f.halfedge.next.v.name, f.halfedge.next.next.v.name) for f in graph.F], "\n"
+    )
+
+#---
+# Testing
+# graph = Build.triangular(5)
+# show(graph)
