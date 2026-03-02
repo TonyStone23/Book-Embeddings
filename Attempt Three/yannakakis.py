@@ -4,7 +4,7 @@ r.seed(23)
 
 #---
 # Tarjan depth first search
-def dfs(u, inactive=None, parent=None, path=None, tree=None, visited=None, discovery=None, lowlink=None):
+def dfs(u, parent=None, inactive=None, path=None, tree=None, visited=None, discovery=None, lowlink=None, time = None):
     if inactive is None:
         inactive = set()
     if path is None: 
@@ -17,21 +17,30 @@ def dfs(u, inactive=None, parent=None, path=None, tree=None, visited=None, disco
         discovery = {}
     if lowlink is None: 
         lowlink = {}
+    if time is None:
+        time = [0]
 
     visited[u] = True
-    discovery[u] = len(discovery) + 1
-    lowlink[u] = len(discovery) + 1
+    time[0] += 1
+    discovery[u] = time[0]
+    lowlink[u] = time[0]
 
     start = u.halfedge
     e = start
     while True:
         v = e.twin.v
-
-        # This needs to keep track of blocks, and label edges as binding or not
         if v.active:
-            if v != u and v not in visited:
+
+            if parent is not None and e is parent.twin:
+                e = e.twin.next
+                if e == start:
+                    break
+                continue
+
+            if v not in visited:
                 path.append(e)
-                blocks = dfs(v, inactive, u, path, tree, visited, discovery, lowlink)
+                dfs(v, e, inactive, path, tree, visited, discovery, lowlink, time)
+
                 lowlink[u] = min(lowlink[u], lowlink[v])
 
                 if lowlink[v] >= discovery[u]:
@@ -43,7 +52,8 @@ def dfs(u, inactive=None, parent=None, path=None, tree=None, visited=None, disco
                             break
                     tree.blocks.append(block)
 
-            elif v != parent and discovery[v] < discovery[u]:
+            elif discovery[v] < discovery[u]:
+                path.append(e)
                 lowlink[u] = min(lowlink[u], discovery[v])  # Back edge
 
         e = e.twin.next
@@ -51,8 +61,6 @@ def dfs(u, inactive=None, parent=None, path=None, tree=None, visited=None, disco
             break
 
     return tree
-
-#def classifyEdges(cycle):
 
 #---
 # Walk face
@@ -65,11 +73,11 @@ def walk(face):
         next = next.next
 
     return walk
-    
+
 #---
 # Testing
 
-graph = Build.triangular(7)
+graph = Build.triangular(5)
 show(graph)
 
 outerFace = graph.F[0]
@@ -79,6 +87,7 @@ vs = walk(outerFace)
 for v in vs:
     v.active = False
 
+print(F"Outer face: {[v.name for v in vs]}")
 u = r.choice([u for u in set(graph.V) - set(vs)])
 
 tree = dfs(u)

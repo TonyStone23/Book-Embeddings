@@ -14,7 +14,6 @@ class Vertex:
         self.halfedge = None
         self.active = True
         
-
 #---
 # Halfedge
 class Halfedge:
@@ -47,7 +46,7 @@ class Graph:
         self.outerface = None
 
 #---
-# Blocl
+# Block
 class Block:
     def __init__(self):
         self.cycle = set()

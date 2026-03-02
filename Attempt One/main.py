@@ -10,4 +10,4 @@ v = G.V()[0]
 for e in v.edges():
     print(e.u(v).name())
 
-see(G)
+draw(G)

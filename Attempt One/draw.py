@@ -25,7 +25,7 @@ def drawVertex(u, ax):
     ax.add_patch(circle)
     ax.text(u.spot(), 0, f"$V_{{{u.name()}}}$", fontsize=12, color='black', ha='center', va='center')
 
-def see(G):
+def draw(G):
     fig, ax = plt.subplots()
     for e in G.E():
         drawEdge(e, ax)

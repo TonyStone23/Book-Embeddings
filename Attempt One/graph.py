@@ -26,21 +26,6 @@ class Vertex:
             self.__spot = newSpot
         return self.__spot
     
-    def level(self, newLevel=None):
-        if newLevel is not None:
-            self.__level = newLevel
-        return self.__level
-    
-    def discovery(self, discovery=None):
-        if discovery is not None:
-            self.__discovery = discovery
-        return self.__discovery
-    
-    def lowlink(self, lowlink=None):
-        if lowlink is not None:
-            self.__lowlink = lowlink
-        return self.__lowlink
-    
 #---
 # Edge class
 class Edge:
@@ -93,11 +78,6 @@ class Graph:
     def show(self):
         for e in self.__E:
             print(f"{e.name()}--{e}")
-
-    def clean(self):
-        for v in self.__V:
-            v.discovery(0)
-            v.lowlink(0)
 
     #---
     # Graph operations -- for utility, not necessarily 'real' operations
