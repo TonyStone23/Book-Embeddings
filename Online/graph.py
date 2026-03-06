@@ -32,7 +32,7 @@ class Edge:
     def __init__(self, v, u):
         self.__vu = (v, u)
         self.__name = f"{v.name()}{u.name()}"
-        self.__page = 0
+        self.__page = None
 
         u.add(self)
         v.add(self)
@@ -77,7 +77,7 @@ class Graph:
 
     def show(self):
         for e in self.__E:
-            print(f"{e.name()}--{e}")
+            print(f"{e.name()}")
 
     #---
     # Graph operations -- for utility, not necessarily 'real' operations
