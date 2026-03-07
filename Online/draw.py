@@ -20,6 +20,10 @@ def drawEdge(e, ax):
         arc = Arc(center, width, -height, angle = 0, theta1=0, theta2=180, edgecolor='green', lw = 1)
     if e.page() == 2:
         arc = Arc(center, width, -height, angle = 0, theta1=0, theta2=180, edgecolor='blue', lw = 1)
+    if e.page() == 3:
+        arc = Arc(center, width, -height, angle = 0, theta1=0, theta2=180, edgecolor='orange', lw = 1)
+    if e.page() == 4:
+        arc = Arc(center, width, -height, angle = 0, theta1=0, theta2=180, edgecolor='yellow', lw = 1)
     ax.add_patch(arc)
 
 def drawVertex(u, ax):
