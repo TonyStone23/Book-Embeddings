@@ -10,7 +10,6 @@ def recurse(v, pages, spine):
     v.spot(spine.index(v))
     tocolor = {}
 
-    # Recursive calls
     next = None
     for e in v.edges():
         u = e.u(v)
@@ -22,8 +21,7 @@ def recurse(v, pages, spine):
         else:
             tocolor[abs(v.spot() - u.spot())] = e
 
-    # coloring
-    #print(f"finishing vertex at {spine.index(v)}")
+    # Coloring
     while tocolor:
         shortest = min(tocolor.keys())
         e = tocolor.pop(shortest)
@@ -44,6 +42,7 @@ def recurse(v, pages, spine):
             e.page(newColor)
             print(f"available: {newColor, pages[newColor]} -- coloring {e.name()} from u({u.name()}) at {u.spot()} to v({v.name()}) at {v.spot()}")
 
+    # Recursive call
     if next is not None:
         print("recursion")
         pages, spine = recurse(next, pages, spine)
@@ -52,18 +51,18 @@ def recurse(v, pages, spine):
 
 
 def online(G):
-    #G = Graph()
-    v = r.choice(G.V())#;v = Vertex() # for colors, delete me
+    v = r.choice(G.V())
     pages = {0:[]}
     spine = []
     while len(spine) < len(G.V()):
+        v = r.choice([v for v in G.V() if v not in spine])
         pages, spine = recurse(v, pages, spine)
         print(pages)
 
     return G
 #---
 # Testing
-G = Build.triangular(7)
+G = Build.triangular(9)
 G.show()
 G = online(G)
 draw(G)
