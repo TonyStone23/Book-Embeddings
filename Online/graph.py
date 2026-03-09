@@ -4,7 +4,7 @@ class Vertex:
     def __init__(self, num):
         self.__name = num
         self.__edges = set()
-        self.__spot = num
+        self.__spot = None
         self.__discovery = 0
         self.__lowlink = 0
         self.__level = None

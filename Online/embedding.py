@@ -5,7 +5,7 @@ r.seed(23)
 
 #---
 # Online
-def dfs(v, pages, spine):
+def recurse(v, pages, spine):
     spine.append(v)
     v.spot(spine.index(v))
     tocolor = {}
@@ -17,7 +17,9 @@ def dfs(v, pages, spine):
         if u not in spine and next is None:
             e.page(0)
             next = u
-        elif u.spot() < v.spot():
+        elif u.spot() is None:
+            continue
+        else:
             tocolor[abs(v.spot() - u.spot())] = e
 
     # coloring
@@ -26,12 +28,11 @@ def dfs(v, pages, spine):
         shortest = min(tocolor.keys())
         e = tocolor.pop(shortest)
         u = e.u(v)
-        print(f"u({u.spot()}) to v({v.spot()})")
         for page in pages:
             available = pages[page]
             available = available + [1] * (len(spine) - len(available))
             if available[u.spot()] == 1 and available[v.spot()] == 1:
-                print(f"available: {page, available} -- coloring {e} from u({u.spot()}) to v({v.spot()})")
+                print(f"available: {page, available} -- coloring {e.name()} from u({u.name()}) at {u.spot()} to v({v.name()}) at {v.spot()}")
                 e.page(page)
                 pages[page] = available[:u.spot() + 1] + [0] * (v.spot() - u.spot() - 1) + available[v.spot():]
                 break
@@ -41,10 +42,11 @@ def dfs(v, pages, spine):
             newColor = len(pages)
             pages[newColor] = [1] * len(spine[:u.spot() + 1]) + [0] * (v.spot() - u.spot() - 1) + [1]
             e.page(newColor)
+            print(f"available: {newColor, pages[newColor]} -- coloring {e.name()} from u({u.name()}) at {u.spot()} to v({v.name()}) at {v.spot()}")
 
     if next is not None:
         print("recursion")
-        pages, spine = dfs(next, pages, spine)
+        pages, spine = recurse(next, pages, spine)
 
     return pages, spine
 
@@ -55,7 +57,7 @@ def online(G):
     pages = {0:[]}
     spine = []
     while len(spine) < len(G.V()):
-        pages, spine = dfs(v, pages, spine)
+        pages, spine = recurse(v, pages, spine)
         print(pages)
 
     return G
