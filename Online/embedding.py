@@ -4,7 +4,7 @@ import random as r
 r.seed(23)
 
 #---
-# Online
+# Online Algorithm
 def recurse(v, pages, spine):
     spine.append(v)
     v.spot(spine.index(v))
@@ -30,25 +30,20 @@ def recurse(v, pages, spine):
             available = pages[page]
             available = available + [1] * (len(spine) - len(available))
             if available[u.spot()] == 1 and available[v.spot()] == 1:
-                print(f"available: {page, available} -- coloring {e.name()} from u({u.name()}) at {u.spot()} to v({v.name()}) at {v.spot()}")
                 e.page(page)
-                pages[page] = available[:u.spot() + 1] + [0] * (v.spot() - u.spot() - 1) + available[v.spot():]
+                pages[page] = available[:u.spot() + 1] + [0] * (v.spot() - u.spot() - 1) + [1]
                 break
         
         if e.page() is None:
-            print("new color")
-            newColor = len(pages)
-            pages[newColor] = [1] * len(spine[:u.spot() + 1]) + [0] * (v.spot() - u.spot() - 1) + [1]
-            e.page(newColor)
-            print(f"available: {newColor, pages[newColor]} -- coloring {e.name()} from u({u.name()}) at {u.spot()} to v({v.name()}) at {v.spot()}")
+            newPage = len(pages)
+            pages[newPage] = [1] * len(spine[:u.spot() + 1]) + [0] * (v.spot() - u.spot() - 1) + [1]
+            e.page(newPage)
 
     # Recursive call
     if next is not None:
-        print("recursion")
         pages, spine = recurse(next, pages, spine)
 
     return pages, spine
-
 
 def online(G):
     v = r.choice(G.V())
@@ -57,12 +52,10 @@ def online(G):
     while len(spine) < len(G.V()):
         v = r.choice([v for v in G.V() if v not in spine])
         pages, spine = recurse(v, pages, spine)
-        print(pages)
 
-    return G
 #---
 # Testing
 G = Build.triangular(9)
 G.show()
-G = online(G)
+online(G)
 draw(G)
