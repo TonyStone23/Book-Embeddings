@@ -5,8 +5,8 @@ from draw import *
 
 #---
 # Testing
-G = Build.complete(7)
-#G = Build.triangular(7)
+G = Build.complete(9)
+#G = Build.triangular(9)
 #G = Build.binaryTree(7)
 online(G)
 draw(G)
