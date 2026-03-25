@@ -11,6 +11,7 @@ def drawEdge(e, ax):
     center = (abs((vp + up)/2), 0)
     width = abs(vp - up)
     height = abs(vp-up)/2
+    
     # needs cleaned up
     if e.page() == None:
         arc = Arc(center, width, height, angle = 0, theta1=0, theta2=180, edgecolor='red', lw = 1)

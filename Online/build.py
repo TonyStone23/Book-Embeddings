@@ -1,5 +1,6 @@
 from graph import *
 import numpy.random as r; r.seed(23)
+from draw import *
 
 #---
 # Binary tree helper
@@ -86,4 +87,20 @@ class Build:
             f1, f2, f3 = triangulate(f, V, E, i)
             faces += [f1, f2, f3]
     
+        return G
+    
+    #---
+    # Complete Graph
+    def complete(n):
+
+        G = Graph()
+        V = G.V()
+        E = G.E()
+
+        for i in range(n):
+            v = Vertex(i)
+            V.append(v)
+            for u in V:
+                E.append(Edge(v, u))
+
         return G

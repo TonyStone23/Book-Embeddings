@@ -52,10 +52,3 @@ def online(G):
     while len(spine) < len(G.V()):
         v = r.choice([v for v in G.V() if v not in spine])
         pages, spine = recurse(v, pages, spine)
-
-#---
-# Testing
-G = Build.triangular(9)
-G.show()
-online(G)
-draw(G)
